@@ -29,7 +29,7 @@ if __name__ == "__main__":
         file_name = input("audiofile name: ")
         if file_name.lower() == "exit":
             continue
-        res = pipeline(file_name, processor=processor, asr_model=asr_model, forced_decoder_ids=forced_decoder_ids,
+        res = pipeline(file_name, prob=True, processor=processor, asr_model=asr_model, forced_decoder_ids=forced_decoder_ids,
                        tokenizer=tokenizer, cls_model=cls_model)
         print(res)
 

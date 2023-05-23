@@ -9,8 +9,8 @@ def load_whisper():
     load model and processor
     :return: processor, model, force_decoder_ids
     """
-    processor = WhisperProcessor.from_pretrained("openai/whisper-small")
-    model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-small")
+    processor = WhisperProcessor.from_pretrained("openai/whisper-base")
+    model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-base")
     forced_decoder_ids = processor.get_decoder_prompt_ids(language="french", task="translate")
     return processor, model, forced_decoder_ids
 
