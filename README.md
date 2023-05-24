@@ -13,8 +13,8 @@ Pipeline for audiofile to text classification.
 
 ### Loading Whisper
 
-The whisper model we're using is "whisper-base" with 74 millions parameters, but we could use "whisper-small" which has 
-244 millions parameters and has a fairly short inference.
+The whisper model we're using is "whisper-small" with 244 millions parameters, but we could use "whisper-base" which has 
+74 millions parameters but is not as effective as whispe-small.
 
 To use whisper, we have to load:
 
@@ -30,7 +30,7 @@ work on my computer). ```python-sounddevice``` library seems to not work. I acci
 We don't need to have a continuous asr task which would use a queue but it could be useful if we want an automatic 
 starting/ending audio recognition. I will try to implement it if i can make the microphone work.
 
-**For now, whisper is set for french-to-english**
+**by default, whisper is set for french-to-english, but it can be modified (see usage)**
 
 ### Loading DistilBERT
 
@@ -59,9 +59,8 @@ Using conda, create the environment with env.yml file
 
 To then use the pipeline simply type:
 
-```./pipeline.py```
+```./pipeline.py --language [fr/french/it/italian | def french] --size [whsiper size | def base]```
+
+I delibarately chose to only use french or italian.
 
 Then the input named ```audio file name: ``` will appear and simply enter the audiofile path/name.
-
-In the next days, I will introduce an argument to switch Whisper to italian-to-english and french-to-english more
-more easily than changing the code.

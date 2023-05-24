@@ -4,14 +4,15 @@ from transformers import WhisperProcessor, WhisperForConditionalGeneration
 import librosa
 import warnings
 
-def load_whisper():
+def load_whisper(language='french', size='base'):
     """
     load model and processor
-    :return: processor, model, force_decoder_ids
+    :param language: language for asr, italian or french to english
+    :return: processor, whsiper model, forced_decoder_ids
     """
-    processor = WhisperProcessor.from_pretrained("openai/whisper-base")
-    model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-base")
-    forced_decoder_ids = processor.get_decoder_prompt_ids(language="french", task="translate")
+    processor = WhisperProcessor.from_pretrained("openai/whisper-"+size)
+    model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-"+size)
+    forced_decoder_ids = processor.get_decoder_prompt_ids(language=language, task="translate")
     return processor, model, forced_decoder_ids
 
 
