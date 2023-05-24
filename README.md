@@ -64,3 +64,28 @@ To then use the pipeline simply type:
 I delibarately chose to only use french or italian.
 
 Then the input named ```audio file name: ``` will appear and simply enter the audiofile path/name.
+
+To exit the loop, simply type ```exit``` instead of an audio file.
+
+### Example
+
+Let's use one example. *coca-cola.m4a* is an audio file for the sentence "J'ai besoin de jeter une canette de coca"
+which translates to "I need to throw a can of coca".
+
+First let's start the pipeline.
+
+```./pipeline.py -language french -size small```
+
+After everything loaded, let's select the right audio file:
+
+```audiofile name: coca-cola.m4a```
+
+We have this result:
+
+``` 
+I need to throw a can of coca.
+1/1 [==============================] - 1s 812ms/step
+('ALUMINIUM CAN', 0.99602026)
+```
+
+Voilà !
