@@ -1,0 +1,9 @@
+name: Pipelinev2
+channels:
+  - conda-forge
+dependencies:
+  - tensorflow
+  - transformers
+  - openai
+  - librosa
+  - python-sounddevice
