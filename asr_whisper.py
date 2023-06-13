@@ -24,6 +24,7 @@ def asr(file_name, processor, model, forced_decoder_ids):
     """
     # load mp3 file
     array, sampling_rate = librosa.load(file_name, sr=16000)
+    print(array.shape)
     input_features = processor(array, sampling_rate=sampling_rate, return_tensors="pt").input_features
     # generate token ids
     predicted_ids = model.generate(input_features, forced_decoder_ids=forced_decoder_ids)
@@ -32,6 +33,14 @@ def asr(file_name, processor, model, forced_decoder_ids):
     # print(transcription)
     return transcription[0]
 
+def asr_recording(recording, processor, model, forced_decoder_ids):
+    input_features = processor(recording, sampling_rate=16000, return_tensors="pt").input_features
+    # generate token ids
+    predicted_ids = model.generate(input_features, forced_decoder_ids=forced_decoder_ids)
+    # decode token ids to text
+    transcription = processor.batch_decode(predicted_ids, skip_special_tokens=True)
+    # print(transcription)
+    return transcription[0]
 
 if __name__ == "__main__":
     file_name = input("file name: ")
