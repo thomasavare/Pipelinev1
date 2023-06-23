@@ -52,22 +52,35 @@ The classification task goes as followed:
 5. extracting the index with highest probability and with a dictionary extracting the corresponding class.
 
 ## Using the pipeline
+### Pipeline 1
 
 Using conda, create the environment with env.yml file
 
-```conda create -n Pipelinev1 --file env.yml```
+```conda create -n Pipelinev1 --file environment.yml```
+
+be careful to use ```environment.yml``` and not ```env.ymel```, I forgot to delete it.
+
+If you have issues with python-sounddevice, delete it from the virtual environment and install it with pip.
 
 To then use the pipeline simply type:
 
 ```./pipeline.py --language [fr/french/it/italian | def french] --size [whsiper size | def base]```
 
-I delibarately chose to only use french or italian.
+I deliberately chose to only use french or italian.
 
 Then the input named ```audio file name: ``` will appear and simply enter the audiofile path/name.
 
 To exit the loop, simply type ```exit``` instead of an audio file.
 
-### Example
+Pipeline 1 is going to be used to evaluate the performances of the pipeline.
+
+
+### Pipeline 2 & 3
+
+Pipeline 2 and 3 are similar, the only difference is that pipeline 3 implements an autostop for the recording and 
+pipeline 2 is stopped by using ```ctrl+c```
+
+### Example for pipeline 1
 
 Let's use one example. *coca-cola.m4a* is an audio file for the sentence "J'ai besoin de jeter une canette de coca"
 which translates to "I need to throw a can of coca".

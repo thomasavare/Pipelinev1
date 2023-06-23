@@ -7,20 +7,7 @@ from time import sleep
 from tensorflow import get_logger
 from asr_whisper import load_whisper, asr_recording
 from distilbert_classifcation import load_bert, classify
-from micro import recording
-
-
-def pipeline(file_name, prob=False, **kwargs):
-    """
-    Full pipeline for waste classification using whsiper and distilbert (finetuned)
-    :param file_name: audio file to process through pipeline
-    :param asr_args: [processor
-    :param classification_args:
-    :return:
-    """
-    text = asr(file_name, kwargs["processor"], kwargs["asr_model"], kwargs["forced_decoder_ids"])
-    print(text)
-    return classify(text, kwargs["tokenizer"], kwargs["cls_model"], prob=prob)
+from autorecord import recording, recording_save
 
 
 def language(lg):
@@ -35,10 +22,14 @@ def language(lg):
 if __name__ == "__main__":
     # parsing language if needed
     parser = argparse.ArgumentParser()
-    parser.add_argument('-language', default='french', help="select language between 'fr'/'french' and 'it'/'italian")
-    parser.add_argument('-size', default='base', help="whisper size, base or small recommended")
-    parser.add_argument('-filename', default='output.wav', help="output audiofile name")
-    parser.add_argument('-seconds', default=5, help="duration of audio recording", type=int)
+    parser.add_argument('-l','--language', default='french', help="select language between 'fr'/'french' and "
+                                                                  "'it'/'italian")
+    parser.add_argument('-s', '--size', default='base', help="whisper size, base or small recommended")
+    parser.add_argument('-f', '--filename', default=True, help="output audiofile name")
+    parser.add_argument('-s', '--seconds', default=5, help="duration of audio recording", type=int)
+    parser.add_argument('-d', '--device', default=0, help="device to record on, type 'python -m sounddevice' to have"
+                                                          "the list of available devices", type=int)
+
     args = parser.parse_args()
     language = language(args.language)
 
@@ -56,10 +47,13 @@ if __name__ == "__main__":
     print("recording starts in 2 seconds")
     sleep(2)
     print("start")
-    myrecording = recording(args.seconds, sr, args.filename)[0]
+    if args.filename:
+        myrecording = recording(sr, args.device, 16000, args.seconds)[0]
+    else:
+        myrecording = recording_save(sr, args.device, 16000, args.seconds, args.filename)
     print("end")
 
-    text = asr_recording(myrecording, processor, asr_model, forced_decoder_ids, sr)
+    text = asr_recording(myrecording, processor, asr_model, forced_decoder_ids)
     print(text)
 
     # Loading classification

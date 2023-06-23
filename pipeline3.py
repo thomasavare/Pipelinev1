@@ -10,19 +10,6 @@ from autorecord import autorecord, autorecord_save
 from distilbert_classifcation import load_bert, classify
 
 
-def pipeline(file_name, prob=False, **kwargs):
-    """
-    Full pipeline for waste classification using whsiper and distilbert (finetuned)
-    :param file_name: audio file to process through pipeline
-    :param asr_args: [processor
-    :param classification_args:
-    :return:
-    """
-    text = asr(file_name, kwargs["processor"], kwargs["asr_model"], kwargs["forced_decoder_ids"])
-    print(text)
-    return classify(text, kwargs["tokenizer"], kwargs["cls_model"], prob=prob)
-
-
 def language(lg):
     if lg.lower() in "french":
         return "french"
@@ -46,9 +33,6 @@ if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     get_logger().setLevel('INFO')
 
-    # Loading whisper
-    processor, asr_model, forced_decoder_ids = load_whisper(args.language, args.size)
-
     sr = 16000
     blocksize = 16000 # 1 block = 1
 
@@ -59,6 +43,9 @@ if __name__ == "__main__":
         record = autorecord_save(sr, args.device, args.blocksize, args.filename)
 
     print(record)
+
+    # Loading whisper
+    processor, asr_model, forced_decoder_ids = load_whisper(args.language, args.size)
 
     text = asr_recording(record, processor, asr_model, forced_decoder_ids)
     print(text, flush=True)
