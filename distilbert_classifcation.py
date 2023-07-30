@@ -41,6 +41,15 @@ def classify(text, tokenizer, model, prob=False):
     return id2label[argmax(res)]
 
 
+def classify_id(text, tokenizer, model):
+    x = [text]
+    tokenized = tokenizer(x)
+    tfdataset = tf.data.Dataset.from_tensor_slices(dict(tokenized))
+    tfdataset = tfdataset.batch(1)
+    res = model.predict(tfdataset).logits
+    return argmax(tf.nn.softmax(tf.convert_to_tensor(res)).numpy())
+
+
 if __name__ == "__main__":
     tokenizer, model = load_bert()
     text = input("text to classify: ")

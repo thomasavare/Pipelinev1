@@ -4,8 +4,8 @@ import warnings
 import argparse
 from tensorflow import get_logger
 
-from asr_whisper import load_whisper, asr
-from distilbert_classifcation import load_bert, classify
+from asr_whisper import load_whisper, asr, asr_recording
+from distilbert_classifcation import load_bert, classify, classify_id
 
 
 def pipeline(file_name, prob=False, **kwargs):
@@ -19,6 +19,10 @@ def pipeline(file_name, prob=False, **kwargs):
     text = asr(file_name, kwargs["processor"], kwargs["asr_model"], kwargs["forced_decoder_ids"])
     print(text)
     return classify(text, kwargs["tokenizer"], kwargs["cls_model"], prob=prob)
+
+def pipeline_perf(array, **kwargs):
+    text = asr_recording(array, kwargs["processor"], kwargs["asr_model"], kwargs["forced_decoder_ids"])
+    return classify_id(text, kwargs["tokenizer"], kwargs["cls_model"])
 
 
 def language(lg):

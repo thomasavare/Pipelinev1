@@ -1,15 +1,15 @@
-#!/usr/bin/env python
-
-# Does not work: sounddevice.PortAudioError: Error opening InputStream: Invalid number of channels [PaErrorCode -9998]
-# Can't resolve it
+#!/usr/bin/env python3
 
 import sounddevice as sd
-from scipy.io.wavfile import write
+import soundfile as sf
+
 
 if __name__ == "__main__":
-    sr = 44100
-    seconds = 3
+    sr = 16000
+    seconds = 5
+    # sd.default.device = 0
+    # print(sd.query_devices())
 
-    myrecording = sd.rec(int(seconds * sr), samplerate=sr, channels=3)
-    sd.wait()  # Wait until recording is finished
-    write('output.wav', sr, myrecording)  # Save as WAV file
+    my_recording = sd.rec(int(seconds * sr), samplerate=sr, channels=1)
+    sd.wait()
+    sf.write('output.wav', my_recording, sr)
